@@ -37,10 +37,11 @@ public class App {
 
     public static void main(String[] args) {
         try {
-            Yaml yaml = new Yaml(new Constructor(YamlConfig.class));
-            InputStream inputStream = new FileInputStream(APPLICATION_PATH);
-
-            YamlConfig yamlConfig = yaml.load(inputStream);
+//            Yaml yaml = new Yaml(new Constructor(YamlConfig.class));
+//            InputStream inputStream = new FileInputStream(APPLICATION_PATH);
+//
+//            YamlConfig yamlConfig = yaml.load(inputStream);
+            YamlConfig yamlConfig = new YamlConfig();
 
             INDEX_PREFIX = yamlConfig.getIndexPrefix();
 
