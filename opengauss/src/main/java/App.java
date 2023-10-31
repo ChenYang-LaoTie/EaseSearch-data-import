@@ -20,10 +20,12 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-public class main {
+public class App {
     private static final String TARGET_PATH = System.getenv("TARGET_PATH");
 
     private static RestHighLevelClient restHighLevelClient;
@@ -31,10 +33,6 @@ public class main {
     private static String INDEX_PREFIX;
 
     private static final String APPLICATION_PATH = System.getenv("APPLICATION_PATH");
-
-
-
-
 
 
     public static void main(String[] args) {
@@ -80,10 +78,7 @@ public class main {
         }
 
 
-
-
     }
-
 
 
     public static void fileDate() {
@@ -173,7 +168,6 @@ public class main {
         }
 
     }
-
 
 
 }

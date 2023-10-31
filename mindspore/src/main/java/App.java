@@ -37,7 +37,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.*;
 
-public class main {
+public class App {
     private static final String TARGET_PATH = System.getenv("TARGET_PATH");
 
     private static RestHighLevelClient restHighLevelClient;
