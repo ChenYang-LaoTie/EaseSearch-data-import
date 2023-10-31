@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class App {
+public class main {
     private static final String TARGET_PATH = System.getenv("TARGET_PATH");
 
     private static RestHighLevelClient restHighLevelClient;
