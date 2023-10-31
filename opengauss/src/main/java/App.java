@@ -40,9 +40,8 @@ public class App {
     public static void main(String[] args) {
         try {
             Yaml yaml = new Yaml(new Constructor(YamlConfig.class));
-//            InputStream inputStream = new FileInputStream(APPLICATION_PATH);
+            InputStream inputStream = new FileInputStream(APPLICATION_PATH);
 
-            InputStream inputStream = new FileInputStream("C:\\CYDev\\EaseSearch-date-import\\opengauss\\src\\main\\resources\\application.yaml");
             YamlConfig yamlConfig = yaml.load(inputStream);
 
             if (yamlConfig.isUseCer()) {
