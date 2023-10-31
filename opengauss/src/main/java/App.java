@@ -44,6 +44,8 @@ public class App {
 
             YamlConfig yamlConfig = yaml.load(inputStream);
 
+            INDEX_PREFIX = yamlConfig.getIndexPrefix();
+
             if (yamlConfig.isUseCer()) {
                 restHighLevelClient = EsClientCer.create(
                         yamlConfig.getHost(),
