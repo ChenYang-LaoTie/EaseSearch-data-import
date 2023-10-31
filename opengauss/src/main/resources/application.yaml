@@ -1,0 +1,10 @@
+indexPrefix:
+host:
+  -
+port:
+protocol:
+username:
+password:
+useCer:
+cerFilePath:
+cerPassword:
