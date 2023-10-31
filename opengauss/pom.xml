@@ -75,7 +75,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.search.App</mainClass>
+                            <mainClass>App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
