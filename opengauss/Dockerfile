@@ -56,7 +56,7 @@ COPY --chown=easysearch --from=Builder /docs-file/target ${WORKSPACE}/file/targe
 
 ENV JAVA_HOME=${WORKSPACE}/jre
 ENV PATH=${JAVA_HOME}/bin:$PATH
-ENV MAPPING_PATH=${WORKSPACE}/target/mapping.json
+ENV MAPPING_PATH=${WORKSPACE}/target/classes/mapping.json
 
 ENV NO_ID_USER=anonymous
 ENV LANG="C.UTF-8"
