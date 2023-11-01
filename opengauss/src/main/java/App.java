@@ -85,6 +85,7 @@ public class App {
         }
 
         System.out.println("import end");
+        return;
     }
 
     public static void makeIndex(String index, String mappingPath) throws IOException {
