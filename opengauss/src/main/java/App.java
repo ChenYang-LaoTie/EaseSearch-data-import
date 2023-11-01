@@ -44,6 +44,7 @@ public class App {
 
     public static void main(String[] args) {
         try {
+            System.out.println("ppppp");
             Yaml yaml = new Yaml(new Constructor(YamlConfig.class));
             InputStream inputStream = new FileInputStream(APPLICATION_PATH);
 
