@@ -84,6 +84,7 @@ public class App {
         } catch (Exception e) {
             System.out.println("zzzzz");
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
