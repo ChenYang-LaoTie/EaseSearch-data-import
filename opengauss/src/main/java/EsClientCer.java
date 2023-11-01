@@ -6,8 +6,6 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.http.nio.conn.ssl.SSLIOSessionStrategy;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequest;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -32,8 +30,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class EsClientCer {
-
-    private static final Logger logger = LogManager.getLogger(EsClientCer.class);
 
     public static RestHighLevelClient create(List<String> host, int port, String protocol, int connectTimeout, int connectionRequestTimeout, int socketTimeout, String username, String password, String cerFilePath,
                                              String cerPassword) throws IOException {
@@ -60,11 +56,9 @@ public class EsClientCer {
                         .setSocketTimeout(socketTimeout))
                 .setHttpClientConfigCallback(httpClientConfigCallback);
         final RestHighLevelClient client = new RestHighLevelClient(builder);
-        logger.info("es rest client build success {} ", client);
 
         ClusterHealthRequest request = new ClusterHealthRequest();
         ClusterHealthResponse response = client.cluster().health(request, RequestOptions.DEFAULT);
-        logger.info("es rest client health response {} ", response);
         return client;
     }
 

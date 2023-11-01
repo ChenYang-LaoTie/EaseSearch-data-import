@@ -5,8 +5,6 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.http.nio.conn.ssl.SSLIOSessionStrategy;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequest;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -26,8 +24,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class EsClient {
-
-    private static final Logger logger = LogManager.getLogger(EsClientCer.class);
 
     /**
      * 创建客户端的类，定义create函数用于创建客户端。
@@ -53,11 +49,9 @@ public class EsClient {
                         .setSocketTimeout(socketTimeout))
                 .setHttpClientConfigCallback(httpClientConfigCallback);
         final RestHighLevelClient client = new RestHighLevelClient(builder);
-        logger.info("es rest client build success {} ", client);
 
         ClusterHealthRequest request = new ClusterHealthRequest();
         ClusterHealthResponse response = client.cluster().health(request, RequestOptions.DEFAULT);
-        logger.info("es rest client health response {} ", response);
         return client;
     }
 

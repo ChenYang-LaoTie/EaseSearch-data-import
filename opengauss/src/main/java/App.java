@@ -1,3 +1,4 @@
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FileUtils;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -9,17 +10,23 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchScrollRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.core.TimeValue;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.Scroll;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.xcontent.XContentType;
+import org.jsoup.internal.StringUtil;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -33,6 +40,8 @@ public class App {
     private static String INDEX_PREFIX;
 
     private static final String APPLICATION_PATH = System.getenv("APPLICATION_PATH");
+
+    private static final String MAPPING_PATH = System.getenv("MAPPING_PATH");
 
 
     public static void main(String[] args) {
@@ -69,15 +78,36 @@ public class App {
                         yamlConfig.getPassword()
                 );
             }
-
-
+            makeIndex(INDEX_PREFIX + "_zh", MAPPING_PATH);
+            makeIndex(INDEX_PREFIX + "_en", MAPPING_PATH);
+            System.out.println("zzz");
             fileDate();
         } catch (Exception e) {
+            System.out.println("zzzzz");
             System.out.println(e.getMessage());
-            return;
         }
 
 
+    }
+
+    public static void makeIndex(String index, String mappingPath) throws IOException {
+        GetIndexRequest request = new GetIndexRequest(index);
+        request.local(false);
+        request.humanReadable(true);
+        request.includeDefaults(false);
+        boolean exists = restHighLevelClient.indices().exists(request, RequestOptions.DEFAULT);
+        if (exists) {
+            return;
+        }
+
+        CreateIndexRequest request1 = new CreateIndexRequest(index);
+        File mappingJson = FileUtils.getFile(mappingPath);
+        String mapping = FileUtils.readFileToString(mappingJson, StandardCharsets.UTF_8);
+
+        request1.mapping(mapping, XContentType.JSON);
+        request1.setTimeout(TimeValue.timeValueMillis(1));
+
+        restHighLevelClient.indices().create(request1, RequestOptions.DEFAULT);
     }
 
 
