@@ -84,8 +84,6 @@ public class App {
             System.out.println("zzzzz");
             System.out.println(e.getMessage());
         }
-
-
     }
 
     public static void makeIndex(String index, String mappingPath) throws IOException {
