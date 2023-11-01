@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class App {
-    private static final String TARGET = System.getenv("TARGET");
+    private static final String TARGET = System.getenv("TARGETzx");
 
     private static RestHighLevelClient restHighLevelClient;
 
