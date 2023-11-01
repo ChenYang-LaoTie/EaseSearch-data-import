@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class App {
-    private static final String TARGET_PATH = System.getenv("TARGET_PATH");
+    private static final String TARGET = System.getenv("TARGET");
 
     private static RestHighLevelClient restHighLevelClient;
 
@@ -83,8 +83,8 @@ public class App {
             fileDate();
         } catch (Exception e) {
             System.out.println("zzzzz");
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+//            System.out.println(e.getMessage());
+//            e.printStackTrace();
         }
     }
 
@@ -110,8 +110,8 @@ public class App {
 
 
     public static void fileDate() {
-        System.out.println(TARGET_PATH);
-        File indexFile = new File(TARGET_PATH);
+        System.out.println(TARGET);
+        File indexFile = new File(TARGET);
         if (!indexFile.exists()) {
             System.out.printf("%s folder does not exist%n", indexFile.getPath());
             return;
