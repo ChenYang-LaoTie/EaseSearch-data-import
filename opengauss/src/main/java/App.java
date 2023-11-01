@@ -110,6 +110,7 @@ public class App {
 
 
     public static void fileDate() {
+        System.out.println(TARGET_PATH);
         File indexFile = new File(TARGET_PATH);
         if (!indexFile.exists()) {
             System.out.printf("%s folder does not exist%n", indexFile.getPath());
