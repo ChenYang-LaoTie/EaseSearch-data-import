@@ -62,4 +62,4 @@ ENV NO_ID_USER=anonymous
 ENV LANG="C.UTF-8"
 USER easysearch
 
-CMD java -jar ${WORKSPACE}/target/import/jar
+CMD java -jar ${WORKSPACE}/target/import.jar
