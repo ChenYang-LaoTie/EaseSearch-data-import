@@ -56,8 +56,8 @@ public class EsClient {
     }
 
 
-
-    /**~
+    /**
+     * ~
      * constructHttpHosts函数转换host集群节点ip列表。
      */
     public static HttpHost[] constructHttpHosts(List<String> host, int port, String protocol) {
@@ -67,7 +67,7 @@ public class EsClient {
     /**
      * trustAllCerts忽略证书配置。
      */
-    public static TrustManager[] trustAllCerts = new TrustManager[] {
+    public static TrustManager[] trustAllCerts = new TrustManager[]{
             new X509TrustManager() {
                 @Override
                 public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
@@ -92,6 +92,7 @@ public class EsClient {
          * The {@link SSLIOSessionStrategy} for all requests to enable SSL / TLS encryption.
          */
         private final SSLIOSessionStrategy sslStrategy;
+
         /**
          * Create a new {@link SecuredHttpClientConfigCallback}.
          *
@@ -104,6 +105,7 @@ public class EsClient {
             this.sslStrategy = Objects.requireNonNull(sslStrategy);
             this.credentialsProvider = credentialsProvider;
         }
+
         /**
          * Get the {@link CredentialsProvider} that will be added to the HTTP client.
          *
@@ -113,6 +115,7 @@ public class EsClient {
         CredentialsProvider getCredentialsProvider() {
             return credentialsProvider;
         }
+
         /**
          * Get the {@link SSLIOSessionStrategy} that will be added to the HTTP client.
          *
@@ -121,6 +124,7 @@ public class EsClient {
         SSLIOSessionStrategy getSSLStrategy() {
             return sslStrategy;
         }
+
         /**
          * Sets the {@linkplain HttpAsyncClientBuilder#setDefaultCredentialsProvider(CredentialsProvider) credential provider},
          *
