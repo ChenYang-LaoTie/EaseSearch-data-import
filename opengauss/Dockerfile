@@ -59,3 +59,4 @@ ENV PATH=${JAVA_HOME}/bin:$PATH
 
 ENV NO_ID_USER=anonymous
 ENV LANG="C.UTF-8"
+
