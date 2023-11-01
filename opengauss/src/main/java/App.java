@@ -81,7 +81,7 @@ public class App {
 //            makeIndex(INDEX_PREFIX + "_en", MAPPING_PATH);
 //            System.out.println("zzz");
 //            fileDate();
-            File indexFile = new File("z");
+            throw new Exception("errorzzz");
         } catch (Exception e) {
             System.out.println("zzzzz");
 //            System.out.println(e.getMessage());
