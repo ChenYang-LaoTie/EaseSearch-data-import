@@ -44,51 +44,47 @@ public class App {
 
     public static void main(String[] args) {
         try {
-            System.out.println("ppppp");
-//            Yaml yaml = new Yaml(new Constructor(YamlConfig.class));
-//            InputStream inputStream = new FileInputStream(APPLICATION_PATH);
-//
-//            YamlConfig yamlConfig = yaml.load(inputStream);
-//
-//            INDEX_PREFIX = yamlConfig.getIndexPrefix();
-//
-//            if (yamlConfig.isUseCer()) {
-//                restHighLevelClient = EsClientCer.create(
-//                        yamlConfig.getHost(),
-//                        yamlConfig.getPort(),
-//                        yamlConfig.getProtocol(),
-//                        1000,
-//                        1000,
-//                        1000,
-//                        yamlConfig.getUsername(),
-//                        yamlConfig.getPassword(),
-//                        yamlConfig.getCerFilePath(),
-//                        yamlConfig.getCerPassword()
-//                );
-//            } else {
-//                restHighLevelClient = EsClient.create(
-//                        yamlConfig.getHost(),
-//                        yamlConfig.getPort(),
-//                        yamlConfig.getProtocol(),
-//                        1000,
-//                        1000,
-//                        1000,
-//                        yamlConfig.getUsername(),
-//                        yamlConfig.getPassword()
-//                );
-//            }
-//            makeIndex(INDEX_PREFIX + "_zh", MAPPING_PATH);
-//            makeIndex(INDEX_PREFIX + "_en", MAPPING_PATH);
-//            System.out.println("zzz");
-//            fileDate();
-            throw new Exception("errorzzz");
+            Yaml yaml = new Yaml(new Constructor(YamlConfig.class));
+            InputStream inputStream = new FileInputStream(APPLICATION_PATH);
+
+            YamlConfig yamlConfig = yaml.load(inputStream);
+
+            INDEX_PREFIX = yamlConfig.getIndexPrefix();
+
+            if (yamlConfig.isUseCer()) {
+                restHighLevelClient = EsClientCer.create(
+                        yamlConfig.getHost(),
+                        yamlConfig.getPort(),
+                        yamlConfig.getProtocol(),
+                        1000,
+                        1000,
+                        1000,
+                        yamlConfig.getUsername(),
+                        yamlConfig.getPassword(),
+                        yamlConfig.getCerFilePath(),
+                        yamlConfig.getCerPassword()
+                );
+            } else {
+                restHighLevelClient = EsClient.create(
+                        yamlConfig.getHost(),
+                        yamlConfig.getPort(),
+                        yamlConfig.getProtocol(),
+                        1000,
+                        1000,
+                        1000,
+                        yamlConfig.getUsername(),
+                        yamlConfig.getPassword()
+                );
+            }
+            makeIndex(INDEX_PREFIX + "_zh", MAPPING_PATH);
+            makeIndex(INDEX_PREFIX + "_en", MAPPING_PATH);
+            fileDate();
         } catch (Exception e) {
-            System.out.println("zzzzz");
             System.out.println(e.getMessage());
-//            e.printStackTrace();
+            e.printStackTrace();
         }
 
-        System.out.println("qqqq");
+        System.out.println("import end");
     }
 
     public static void makeIndex(String index, String mappingPath) throws IOException {
