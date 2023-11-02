@@ -183,7 +183,7 @@ public class pares {
 
     public static List<Map<String, Object>> customizeData() throws Exception {
         List<Map<String, Object>> r = new ArrayList<>();
-        String path = App.yamlConfig.getMindsporeOfficial() + "/api-server/selectWebNews";
+        String path = App.yamlConfig.getMindsporeOfficial() + "/selectWebNews";
 
         HttpURLConnection connection = null;
         String result;  // 返回结果字符串
@@ -251,7 +251,7 @@ public class pares {
             }
 
 
-            path = String.format(App.yamlConfig.getMindsporeOfficial() + "/api-server/selectNewsInfo?id=%d", id);
+            path = String.format(App.yamlConfig.getMindsporeOfficial() + "/selectNewsInfo?id=%d", id);
 
             try {
                 connection = sendGET(path, "GET");
