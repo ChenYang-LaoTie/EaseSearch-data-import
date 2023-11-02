@@ -32,11 +32,11 @@ public class App {
 
     private static RestHighLevelClient restHighLevelClient;
 
-    private static String INDEX_PREFIX;
-
     private static final String APPLICATION_PATH = System.getenv("APPLICATION_PATH");
 
     private static final String MAPPING_PATH = System.getenv("MAPPING_PATH");
+
+    public static YamlConfig yamlConfig;
 
 
     public static void main(String[] args) {
@@ -44,9 +44,7 @@ public class App {
             Yaml yaml = new Yaml(new Constructor(YamlConfig.class));
             InputStream inputStream = new FileInputStream(APPLICATION_PATH);
 
-            YamlConfig yamlConfig = yaml.load(inputStream);
-
-            INDEX_PREFIX = yamlConfig.getIndexPrefix();
+            yamlConfig = yaml.load(inputStream);
 
             if (yamlConfig.isUseCer()) {
                 restHighLevelClient = EsClientCer.create(
@@ -73,8 +71,8 @@ public class App {
                         yamlConfig.getPassword()
                 );
             }
-            makeIndex(INDEX_PREFIX + "_zh", MAPPING_PATH);
-            makeIndex(INDEX_PREFIX + "_en", MAPPING_PATH);
+            makeIndex(yamlConfig.getIndexPrefix() + "_zh", MAPPING_PATH);
+            makeIndex(yamlConfig.getIndexPrefix() + "_en", MAPPING_PATH);
             fileDate();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -124,7 +122,7 @@ public class App {
                 try {
                     Map<String, Object> escape = pares.parse(paresFile);
                     if (null != escape) {
-                        insert(escape, INDEX_PREFIX + "_" + escape.get("lang"));
+                        insert(escape, yamlConfig.getIndexPrefix() + "_" + escape.get("lang"));
                         idSet.add((String) escape.get("path"));
                     }
                 } catch (Exception e) {
@@ -140,7 +138,7 @@ public class App {
         }
 
         for (Map<String, Object> lm : customizeEscape) {
-            insert(lm, INDEX_PREFIX + "_" + lm.get("lang"));
+            insert(lm, yamlConfig.getIndexPrefix() + "_" + lm.get("lang"));
             idSet.add((String) lm.get("path"));
         }
 
@@ -161,7 +159,7 @@ public class App {
             searchSourceBuilder.query(QueryBuilders.matchAllQuery());//读取全量数据
             searchSourceBuilder.size(scrollSize);
             Scroll scroll = new Scroll(TimeValue.timeValueMinutes(10));//设置一次读取的最大连接时长
-            SearchRequest searchRequest = new SearchRequest(INDEX_PREFIX + "_*");
+            SearchRequest searchRequest = new SearchRequest(yamlConfig.getIndexPrefix() + "_*");
             searchRequest.source(searchSourceBuilder);
             searchRequest.scroll(scroll);
 

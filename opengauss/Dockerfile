@@ -34,7 +34,7 @@ RUN mkdir -p ${SOURCE} \
     && pnpm install \
     && pnpm build
 
-RUN cd /EaseSearch \
+RUN cd /EaseSearch/target/classes \
     && chmod +x initDoc.sh \
     && ./initDoc.sh
 

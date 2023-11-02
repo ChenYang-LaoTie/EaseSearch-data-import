@@ -27,7 +27,7 @@ RUN mkdir -p ${SOURCE} \
     && cd ${SOURCE} \
     && git clone https://gitee.com/mindspore/website-docs.git
 
-RUN cd /EaseSearch/target/classes/script/mindspore \
+RUN cd /EaseSearch/target/classes \
     && chmod +x initDoc.sh \
     && ./initDoc.sh
 

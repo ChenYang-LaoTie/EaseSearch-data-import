@@ -11,6 +11,8 @@ public class YamlConfig {
     private String cerFilePath;
     private String cerPassword;
 
+    private String mindsporeOfficial;
+
 
     public String getIndexPrefix() {
         return indexPrefix;
@@ -82,5 +84,13 @@ public class YamlConfig {
 
     public void setCerPassword(String cerPassword) {
         this.cerPassword = cerPassword;
+    }
+
+    public String getMindsporeOfficial() {
+        return mindsporeOfficial;
+    }
+
+    public void setMindsporeOfficial(String mindsporeOfficial) {
+        this.mindsporeOfficial = mindsporeOfficial;
     }
 }

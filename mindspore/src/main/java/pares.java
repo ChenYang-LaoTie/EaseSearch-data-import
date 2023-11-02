@@ -23,11 +23,10 @@ import java.util.concurrent.TimeUnit;
 public class pares {
 
     public static final String BASEPATH = System.getenv("TARGET") + "/";
-    public static String MINDSPORE_OFFICIAL = System.getenv("MINDSPORE_OFFICIAL");
     public static final String LANG_EN = "/en/";
     public static final String LANG_ZH = "/zh-CN/";
 
-    private static final HashMap<String, String > COMPONENTS_MAP  = new HashMap<String, String>(){{
+    private static final HashMap<String, String > COMPONENTS_MAP  = new HashMap<>(){{
         put("docs", "MindSpore");
         put("lite", "MindSpore Lite");
         put("mindinsight", "MindSpore Insight");
@@ -184,7 +183,7 @@ public class pares {
 
     public static List<Map<String, Object>> customizeData() throws Exception {
         List<Map<String, Object>> r = new ArrayList<>();
-        String path = MINDSPORE_OFFICIAL + "/api-server/selectWebNews";
+        String path = App.yamlConfig.getMindsporeOfficial() + "/api-server/selectWebNews";
 
         HttpURLConnection connection = null;
         String result;  // 返回结果字符串
@@ -252,7 +251,7 @@ public class pares {
             }
 
 
-            path = String.format(MINDSPORE_OFFICIAL + "/api-server/selectNewsInfo?id=%d", id);
+            path = String.format(App.yamlConfig.getMindsporeOfficial() + "/api-server/selectNewsInfo?id=%d", id);
 
             try {
                 connection = sendGET(path, "GET");

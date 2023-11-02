@@ -1,4 +1,12 @@
+indexPrefix:
 host:
+  -
+port:
+protocol:
 username:
 password:
-port:
+useCer:
+cerFilePath:
+cerPassword:
+
+mindsporeOfficial:
