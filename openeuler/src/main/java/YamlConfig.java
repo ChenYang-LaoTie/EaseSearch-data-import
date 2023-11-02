@@ -11,6 +11,8 @@ public class YamlConfig {
     private String cerFilePath;
     private String cerPassword;
 
+    private String forumDomain;
+
 
     public String getIndexPrefix() {
         return indexPrefix;
@@ -82,5 +84,13 @@ public class YamlConfig {
 
     public void setCerPassword(String cerPassword) {
         this.cerPassword = cerPassword;
+    }
+
+    public String getForumDomain() {
+        return forumDomain;
+    }
+
+    public void setForumDomain(String forumDomain) {
+        this.forumDomain = forumDomain;
     }
 }

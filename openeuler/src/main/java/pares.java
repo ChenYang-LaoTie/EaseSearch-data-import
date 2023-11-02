@@ -33,8 +33,6 @@ public class pares {
     public static final String EVENTS = "events";
     public static final String USERPRACTICE = "userPractice";
 
-    private static String FORUMDOMAIM = System.getenv("FORUMDOMAIM");
-
 
     public static Map<String, Object> parse(File file) throws Exception {
         String originalPath = file.getPath();
@@ -201,7 +199,7 @@ public class pares {
     }
 
     private static boolean setForum(List<Map<String, Object>> r) {
-        String path = FORUMDOMAIM + "/latest.json?no_definitions=true&page=";
+        String path = App.yamlConfig.getForumDomain() + "/latest.json?no_definitions=true&page=";
 
         String req = "";
         HttpURLConnection connection = null;
@@ -247,7 +245,7 @@ public class pares {
             JSONObject topic = jsonArray.getJSONObject(i);
             String id = topic.getString("id");
             String slug = topic.getString("slug");
-            path = String.format("%s/t/%s/%s.json?track_visit=true&forceLoad=true", FORUMDOMAIM, slug, id);
+            path = String.format("%s/t/%s/%s.json?track_visit=true&forceLoad=true", App.yamlConfig.getForumDomain(), slug, id);
             try {
                 connection = sendHTTP(path, "GET");
                 if (connection.getResponseCode() == 200) {
