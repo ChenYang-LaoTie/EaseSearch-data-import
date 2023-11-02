@@ -126,6 +126,8 @@ public class App {
                     if (null != escape) {
                         insert(escape, INDEX_PREFIX + "_" + escape.get("lang"));
                         idSet.add((String) escape.get("path"));
+                    } else {
+                        System.out.println("parse null : " + paresFile.getPath());
                     }
                 } catch (Exception e) {
                     System.out.println(paresFile.getPath());
