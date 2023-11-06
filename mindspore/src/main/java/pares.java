@@ -102,7 +102,6 @@ public class pares {
             jsonMap.put("type", "install");
             jsonMap.put("components", "MindSpore");
             if (!parseInstall(jsonMap, fileContent)) {
-                System.out.println("3");
                 return null;
             }
         } else {
@@ -135,14 +134,12 @@ public class pares {
                 title = t.text();
                 t.remove();
             } else {
-                System.out.println("1");
                 return false;
             }
             title = title.replaceAll("¶", "");
             title = title.replaceAll("\uF0C1", "");
             textContent = one.text();
         } else {
-            System.out.println("2");
             return false;
         }
 

@@ -122,7 +122,7 @@ public class App {
                 try {
                     Map<String, Object> escape = pares.parse(paresFile);
                     if (null != escape) {
-//                        insert(escape, yamlConfig.getIndexPrefix() + "_" + escape.get("lang"));
+                        insert(escape, yamlConfig.getIndexPrefix() + "_" + escape.get("lang"));
                         idSet.add((String) escape.get("path"));
                     } else {
                         System.out.println("parse null : " + paresFile.getPath());
@@ -134,21 +134,18 @@ public class App {
             }
         }
 
-        System.out.println("__________________________");
-        System.out.println(idSet.size());
+        List<Map<String, Object>> customizeEscape = pares.customizeData();
+        if (null == customizeEscape) {
+            return;
+        }
 
-//        List<Map<String, Object>> customizeEscape = pares.customizeData();
-//        if (null == customizeEscape) {
-//            return;
-//        }
+        for (Map<String, Object> lm : customizeEscape) {
+            insert(lm, yamlConfig.getIndexPrefix() + "_" + lm.get("lang"));
+            idSet.add((String) lm.get("path"));
+        }
 
-//        for (Map<String, Object> lm : customizeEscape) {
-//            insert(lm, yamlConfig.getIndexPrefix() + "_" + lm.get("lang"));
-//            idSet.add((String) lm.get("path"));
-//        }
-//
-//        System.out.println("start delete expired document");
-//        deleteExpired(idSet);
+        System.out.println("start delete expired document");
+        deleteExpired(idSet);
     }
 
     public static void insert(Map<String, Object> data, String index) throws Exception {

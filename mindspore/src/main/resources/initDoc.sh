@@ -56,3 +56,5 @@ find ./ -name search.html |xargs rm -rf
 find ./ -name genindex.html |xargs rm -rf
 # shellcheck disable=SC2038
 find ./ -name py-modindex.html |xargs rm -rf
+# shellcheck disable=SC2038
+find ./ -name unabridged_api.html |xargs rm -rf
