@@ -35,7 +35,6 @@ RUN cp -r jdk-17.0.7 jre
 
 
 FROM openeuler/openeuler:22.03
-ENV searchsystem=mindspore
 
 RUN groupadd -g 1001 easysearch \
     && useradd -u 1001 -g easysearch -s /bin/bash -m easysearch

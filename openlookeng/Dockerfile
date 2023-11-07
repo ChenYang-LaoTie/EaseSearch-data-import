@@ -25,18 +25,14 @@ ENV TARGET=/docs-file/target
 
 RUN mkdir -p ${SOURCE} \
     && cd ${SOURCE} \
-    && git clone https://gitee.com/openeuler/openEuler-portal.git \
-    && git clone https://gitee.com/openeuler/docs.git \
-    && cd openEuler-portal \
-    && pnpm install \
-    && pnpm build
+    && git clone https://gitee.com/openlookeng/website-v2.git  \
+    && git clone https://gitee.com/openlookeng/website-docs.git
 
 RUN cd /EaseSearch/target/classes \
     && chmod +x initDoc.sh \
     && ./initDoc.sh
 
 RUN cp -r jdk-17.0.7 jre
-
 
 FROM openeuler/openeuler:22.03
 
