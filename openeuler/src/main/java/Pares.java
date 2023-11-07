@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class pares {
+public class Pares {
     public static final String BASEPATH = System.getenv("TARGET") + "/";
     public static final String BLOG = "blog";
     public static final String BLOGS = "blogs";

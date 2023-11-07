@@ -121,7 +121,7 @@ public class App {
         for (File paresFile : listFiles) {
             if (!paresFile.getName().startsWith("_")) {
                 try {
-                    Map<String, Object> escape = pares.parse(paresFile);
+                    Map<String, Object> escape = Pares.parse(paresFile);
                     if (null != escape) {
                         insert(escape, yamlConfig.getIndexPrefix() + "_" + escape.get("lang"));
                         idSet.add((String) escape.get("path"));
@@ -135,7 +135,7 @@ public class App {
             }
         }
 
-        List<Map<String, Object>> customizeEscape = pares.customizeData();
+        List<Map<String, Object>> customizeEscape = Pares.customizeData();
         if (null == customizeEscape) {
             return;
         }
