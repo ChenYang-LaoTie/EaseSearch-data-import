@@ -74,6 +74,12 @@
             <version>2.21.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.search</groupId>
+            <artifactId>es-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -104,6 +110,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>

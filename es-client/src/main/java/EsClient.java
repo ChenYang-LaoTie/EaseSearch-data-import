@@ -32,7 +32,7 @@ public class EsClient {
     /**
      * 创建客户端的类，定义create函数用于创建客户端。
      */
-    public static RestHighLevelClient create(List<String> host, int port, String protocol, int connectTimeout, int connectionRequestTimeout, int socketTimeout, String username, String password) throws IOException {
+    public static void create(List<String> host, int port, String protocol, int connectTimeout, int connectionRequestTimeout, int socketTimeout, String username, String password) throws IOException {
         final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, password));
         SSLContext sc = null;
@@ -58,7 +58,8 @@ public class EsClient {
         ClusterHealthRequest request = new ClusterHealthRequest();
         ClusterHealthResponse response = client.cluster().health(request, RequestOptions.DEFAULT);
         logger.info("es rest client health response {} ", response);
-        return client;
+
+        PublicClient.restHighLevelClient = client;
     }
 
 

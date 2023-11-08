@@ -2,6 +2,7 @@ import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.http.nio.conn.ssl.SSLIOSessionStrategy;
@@ -15,37 +16,43 @@ import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.core.Nullable;
 
-import javax.net.ssl.*;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
+import java.io.InputStream;
+import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Objects;
 
-public class EsClient {
+public class EsClientCer {
 
     private static final Logger logger = LogManager.getLogger(EsClientCer.class);
 
-    /**
-     * 创建客户端的类，定义create函数用于创建客户端。
-     */
-    public static RestHighLevelClient create(List<String> host, int port, String protocol, int connectTimeout, int connectionRequestTimeout, int socketTimeout, String username, String password) throws IOException {
+    public static void create(List<String> host, int port, String protocol, int connectTimeout, int connectionRequestTimeout, int socketTimeout, String username, String password, String cerFilePath,
+                                             String cerPassword) throws IOException {
+
         final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, password));
         SSLContext sc = null;
         try {
-            sc = SSLContext.getInstance("SSL");
-            sc.init(null, trustAllCerts, new SecureRandom());
-        } catch (KeyManagementException | NoSuchAlgorithmException e) {
+            TrustManager[] tm = {new MyX509TrustManager(cerFilePath, cerPassword)};
+            sc = SSLContext.getInstance("SSL", "SunJSSE");
+            //也可以使用SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+            sc.init(null, tm, new SecureRandom());
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        SSLIOSessionStrategy sessionStrategy = new SSLIOSessionStrategy(sc, new NullHostNameVerifier());
+
+        SSLIOSessionStrategy sessionStrategy = new SSLIOSessionStrategy(sc, new NoopHostnameVerifier());
         SecuredHttpClientConfigCallback httpClientConfigCallback = new SecuredHttpClientConfigCallback(sessionStrategy,
                 credentialsProvider);
-
 
         RestClientBuilder builder = RestClient.builder(constructHttpHosts(host, port, protocol))
                 .setRequestConfigCallback(requestConfig -> requestConfig.setConnectTimeout(connectTimeout)
@@ -58,12 +65,12 @@ public class EsClient {
         ClusterHealthRequest request = new ClusterHealthRequest();
         ClusterHealthResponse response = client.cluster().health(request, RequestOptions.DEFAULT);
         logger.info("es rest client health response {} ", response);
-        return client;
+
+        PublicClient.restHighLevelClient = client;
     }
 
 
     /**
-     * ~
      * constructHttpHosts函数转换host集群节点ip列表。
      */
     public static HttpHost[] constructHttpHosts(List<String> host, int port, String protocol) {
@@ -71,77 +78,32 @@ public class EsClient {
     }
 
     /**
-     * trustAllCerts忽略证书配置。
+     * SecuredHttpClientConfigCallback类定义。
      */
-    public static TrustManager[] trustAllCerts = new TrustManager[]{
-            new X509TrustManager() {
-                @Override
-                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                }
-
-                @Override
-                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                }
-
-                @Override
-                public X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
-            }
-    };
-
-
     static class SecuredHttpClientConfigCallback implements RestClientBuilder.HttpClientConfigCallback {
         @Nullable
         private final CredentialsProvider credentialsProvider;
-        /**
-         * The {@link SSLIOSessionStrategy} for all requests to enable SSL / TLS encryption.
-         */
+
         private final SSLIOSessionStrategy sslStrategy;
 
-        /**
-         * Create a new {@link SecuredHttpClientConfigCallback}.
-         *
-         * @param credentialsProvider The credential provider, if a username/password have been supplied
-         * @param sslStrategy         The SSL strategy, if SSL / TLS have been supplied
-         * @throws NullPointerException if {@code sslStrategy} is {@code null}
-         */
         SecuredHttpClientConfigCallback(final SSLIOSessionStrategy sslStrategy,
                                         @Nullable final CredentialsProvider credentialsProvider) {
             this.sslStrategy = Objects.requireNonNull(sslStrategy);
             this.credentialsProvider = credentialsProvider;
         }
 
-        /**
-         * Get the {@link CredentialsProvider} that will be added to the HTTP client.
-         *
-         * @return Can be {@code null}.
-         */
         @Nullable
         CredentialsProvider getCredentialsProvider() {
             return credentialsProvider;
         }
 
-        /**
-         * Get the {@link SSLIOSessionStrategy} that will be added to the HTTP client.
-         *
-         * @return Never {@code null}.
-         */
         SSLIOSessionStrategy getSSLStrategy() {
             return sslStrategy;
         }
 
-        /**
-         * Sets the {@linkplain HttpAsyncClientBuilder#setDefaultCredentialsProvider(CredentialsProvider) credential provider},
-         *
-         * @param httpClientBuilder The client to configure.
-         * @return Always {@code httpClientBuilder}.
-         */
         @Override
         public HttpAsyncClientBuilder customizeHttpClient(final HttpAsyncClientBuilder httpClientBuilder) {
-            // enable SSL / TLS
             httpClientBuilder.setSSLStrategy(sslStrategy);
-            // enable user authentication
             if (credentialsProvider != null) {
                 httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
             }
@@ -149,11 +111,43 @@ public class EsClient {
         }
     }
 
+    public static class MyX509TrustManager implements X509TrustManager {
+        X509TrustManager sunJSSEX509TrustManager;
 
-    public static class NullHostNameVerifier implements HostnameVerifier {
+        MyX509TrustManager(String cerFilePath, String cerPassword) throws Exception {
+            File file = new File(cerFilePath);
+            if (!file.isFile()) {
+                throw new Exception("Wrong Certification Path");
+            }
+            System.out.println("Loading KeyStore " + file + "...");
+            InputStream in = new FileInputStream(file);
+            KeyStore ks = KeyStore.getInstance("JKS");
+            ks.load(in, cerPassword.toCharArray());
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509", "SunJSSE");
+            tmf.init(ks);
+            TrustManager[] tms = tmf.getTrustManagers();
+            for (TrustManager tm : tms) {
+                if (tm instanceof X509TrustManager) {
+                    sunJSSEX509TrustManager = (X509TrustManager) tm;
+                    return;
+                }
+            }
+            throw new Exception("Couldn't initialize");
+        }
+
         @Override
-        public boolean verify(String arg0, SSLSession arg1) {
-            return true;
+        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+
+        }
+
+        @Override
+        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+
+        }
+
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return new X509Certificate[0];
         }
     }
 }
