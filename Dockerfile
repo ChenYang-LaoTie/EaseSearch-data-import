@@ -17,8 +17,8 @@ ENV PATH=${JAVA_HOME}/bin:$PATH
 ENV MAVEN_HOME=/apache-maven-3.8.1
 ENV PATH=${MAVEN_HOME}/bin:$PATH
 
-COPY ./es-client /EaseSearch-data-import
-COPY ./${COMMUNITY} /EaseSearch-data-import/
+COPY ./es-client /EaseSearch-data-import/es-client
+COPY ./${COMMUNITY} /EaseSearch-data-import/${COMMUNITY}
 
 RUN cd /EaseSearch-data-import/${COMMUNITY} \
     && mvn clean install package -Dmaven.test.skip
