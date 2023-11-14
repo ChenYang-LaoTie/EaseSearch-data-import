@@ -59,6 +59,9 @@ ENV MAPPING_PATH=${WORKSPACE}/target/classes/mapping.json
 
 ENV NO_ID_USER=anonymous
 ENV LANG="C.UTF-8"
+ENV INDEX_PREFIX=openeuler_articles
+ENV FORUM_DOMAIN=https://forum.openeuler.org
+ENV SERVICE_URL=
 USER easysearch
 
 CMD java -jar ${WORKSPACE}/target/import.jar

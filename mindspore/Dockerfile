@@ -53,6 +53,8 @@ ENV MAPPING_PATH=${WORKSPACE}/target/classes/mapping.json
 
 ENV NO_ID_USER=anonymous
 ENV LANG="C.UTF-8"
+ENV INDEX_PREFIX=mindspore_articles
+ENV MINDSPORE_OFFICIAL=https://website-api.mindspore.cn
 USER easysearch
 
 CMD java -jar ${WORKSPACE}/target/import.jar

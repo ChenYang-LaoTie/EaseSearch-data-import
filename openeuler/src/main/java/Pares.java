@@ -34,6 +34,7 @@ public class Pares {
     public static final String USERPRACTICE = "userPractice";
 
     private static final String FORUM_DOMAIN = System.getenv("FORUM_DOMAIN");
+    private static final String SERVICE_URL = System.getenv("SERVICE_URL");
 
 
     public static Map<String, Object> parse(File file) throws Exception {
@@ -197,6 +198,10 @@ public class Pares {
             System.out.println("Failed to add forum data");
             return null;
         }
+        if (!setService(r)) {
+            System.out.println("Failed to add service data");
+            return null;
+        }
         return null;
     }
 
@@ -285,11 +290,10 @@ public class Pares {
         return true;
     }
 
-    public boolean setService(List<Map<String, Object>> r) {
-        String path = System.getenv("SERVICE_URL");
+    public static boolean setService(List<Map<String, Object>> r) {
         HttpURLConnection connection = null;
         try {
-            connection = sendHTTP(path, "GET");
+            connection = sendHTTP(SERVICE_URL, "GET");
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 return false;
             }

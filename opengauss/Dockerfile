@@ -59,6 +59,7 @@ ENV MAPPING_PATH=${WORKSPACE}/target/classes/mapping.json
 
 ENV NO_ID_USER=anonymous
 ENV LANG="C.UTF-8"
+ENV INDEX_PREFIX=opengauss_articles
 USER easysearch
 
 CMD java -jar ${WORKSPACE}/target/import.jar
