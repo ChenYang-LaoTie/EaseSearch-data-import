@@ -61,7 +61,7 @@ ENV NO_ID_USER=anonymous
 ENV LANG="C.UTF-8"
 ENV INDEX_PREFIX=openeuler_articles
 ENV FORUM_DOMAIN=https://forum.openeuler.org
-ENV SERVICE_URL=
+ENV SERVICE_URL=https://gitee.com/opensourceway/om-data/raw/master/src/openeuler/server.yaml
 USER easysearch
 
 CMD java -jar ${WORKSPACE}/target/import.jar
