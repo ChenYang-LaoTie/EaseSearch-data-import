@@ -16,6 +16,7 @@ ENV MAVEN_HOME=/apache-maven-3.8.1
 ENV PATH=${MAVEN_HOME}/bin:$PATH
 
 COPY . /EaseSearch
+COPY ../es-client /EaseSearch
 
 RUN cd /EaseSearch \
     && mvn clean install package -Dmaven.test.skip
