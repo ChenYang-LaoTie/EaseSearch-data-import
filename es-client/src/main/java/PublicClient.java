@@ -17,9 +17,10 @@ import org.elasticsearch.search.Scroll;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.xcontent.XContentType;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Set;
@@ -27,6 +28,39 @@ import java.util.Set;
 public class PublicClient {
 
     public static RestHighLevelClient restHighLevelClient;
+
+    public static void CreateClientFormConfig(String configPath) throws Exception {
+        Yaml yaml = new Yaml(new Constructor(YamlConfig.class));
+        InputStream inputStream = new FileInputStream(configPath);
+
+        YamlConfig yamlConfig = yaml.load(inputStream);
+
+        if (yamlConfig.isUseCer()) {
+            EsClientCer.create(
+                    yamlConfig.getHost(),
+                    yamlConfig.getPort(),
+                    yamlConfig.getProtocol(),
+                    5 * 1000,
+                    5 * 1000,
+                    30 * 1000,
+                    yamlConfig.getUsername(),
+                    yamlConfig.getPassword(),
+                    yamlConfig.getCerFilePath(),
+                    yamlConfig.getCerPassword()
+            );
+        } else {
+            EsClient.create(
+                    yamlConfig.getHost(),
+                    yamlConfig.getPort(),
+                    yamlConfig.getProtocol(),
+                    5 * 1000,
+                    5 * 1000,
+                    30 * 1000,
+                    yamlConfig.getUsername(),
+                    yamlConfig.getPassword()
+            );
+        }
+    }
 
 
 

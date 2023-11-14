@@ -1,7 +1,6 @@
 import java.util.List;
 
 public class YamlConfig {
-    private String indexPrefix;
     private List<String> host;
     private int port;
     private String protocol;
@@ -10,17 +9,6 @@ public class YamlConfig {
     private boolean useCer;
     private String cerFilePath;
     private String cerPassword;
-
-    private String mindsporeOfficial;
-
-
-    public String getIndexPrefix() {
-        return indexPrefix;
-    }
-
-    public void setIndexPrefix(String indexPrefix) {
-        this.indexPrefix = indexPrefix;
-    }
 
     public List<String> getHost() {
         return host;
@@ -86,11 +74,4 @@ public class YamlConfig {
         this.cerPassword = cerPassword;
     }
 
-    public String getMindsporeOfficial() {
-        return mindsporeOfficial;
-    }
-
-    public void setMindsporeOfficial(String mindsporeOfficial) {
-        this.mindsporeOfficial = mindsporeOfficial;
-    }
 }

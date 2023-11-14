@@ -1,10 +1,6 @@
 import org.apache.commons.io.FileUtils;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -17,43 +13,13 @@ public class App {
 
     private static final String MAPPING_PATH = System.getenv("MAPPING_PATH");
 
-    public static YamlConfig yamlConfig;
-
+    private static final String INDEX_PREFIX = System.getenv("INDEX_PREFIX");
 
     public static void main(String[] args) {
         try {
-            Yaml yaml = new Yaml(new Constructor(YamlConfig.class));
-            InputStream inputStream = new FileInputStream(APPLICATION_PATH);
-
-            yamlConfig = yaml.load(inputStream);
-
-            if (yamlConfig.isUseCer()) {
-                EsClientCer.create(
-                        yamlConfig.getHost(),
-                        yamlConfig.getPort(),
-                        yamlConfig.getProtocol(),
-                        5 * 1000,
-                        5 * 1000,
-                        30 * 1000,
-                        yamlConfig.getUsername(),
-                        yamlConfig.getPassword(),
-                        yamlConfig.getCerFilePath(),
-                        yamlConfig.getCerPassword()
-                );
-            } else {
-                EsClient.create(
-                        yamlConfig.getHost(),
-                        yamlConfig.getPort(),
-                        yamlConfig.getProtocol(),
-                        5 * 1000,
-                        5 * 1000,
-                        30 * 1000,
-                        yamlConfig.getUsername(),
-                        yamlConfig.getPassword()
-                );
-            }
-            PublicClient.makeIndex(yamlConfig.getIndexPrefix() + "_zh", MAPPING_PATH);
-            PublicClient.makeIndex(yamlConfig.getIndexPrefix() + "_en", MAPPING_PATH);
+            PublicClient.CreateClientFormConfig(APPLICATION_PATH);
+            PublicClient.makeIndex(INDEX_PREFIX + "_zh", MAPPING_PATH);
+            PublicClient.makeIndex(INDEX_PREFIX + "_en", MAPPING_PATH);
             fileDate();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -82,7 +48,7 @@ public class App {
                 try {
                     Map<String, Object> escape = Pares.parse(paresFile);
                     if (null != escape) {
-                        PublicClient.insert(escape, yamlConfig.getIndexPrefix() + "_" + escape.get("lang"));
+                        PublicClient.insert(escape, INDEX_PREFIX + "_" + escape.get("lang"));
                         idSet.add((String) escape.get("path"));
                     } else {
                         System.out.println("parse null : " + paresFile.getPath());
@@ -95,7 +61,7 @@ public class App {
         }
 
         System.out.println("start delete expired document");
-        PublicClient.deleteExpired(idSet, yamlConfig.getIndexPrefix() + "_*");
+        PublicClient.deleteExpired(idSet, INDEX_PREFIX + "_*");
     }
 
 }

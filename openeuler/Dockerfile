@@ -23,6 +23,8 @@ RUN cd /EaseSearch \
 ENV SOURCE=/docs-file/source
 ENV TARGET=/docs-file/target
 
+ENV NODE_OPTIONS=--max-old-space-size=8192
+
 RUN mkdir -p ${SOURCE} \
     && cd ${SOURCE} \
     && git clone https://gitee.com/openeuler/openEuler-portal.git \
