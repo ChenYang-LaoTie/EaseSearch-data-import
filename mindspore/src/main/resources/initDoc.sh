@@ -1,5 +1,13 @@
 #!/bin/bash
+SOURCE=/docs-file/source
+TARGET=/docs-file/target
+mkdir -p ${SOURCE}
 mkdir -p ${TARGET}
+
+# shellcheck disable=SC2164
+cd ${SOURCE}
+
+git clone https://gitee.com/mindspore/website-docs.git
 
 if [ ! -d "${SOURCE}/website-docs" ]; then
  rm -rf ${TARGET}

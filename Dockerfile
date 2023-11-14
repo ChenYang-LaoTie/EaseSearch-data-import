@@ -1,5 +1,7 @@
 FROM gplane/pnpm as Builder
 
+ARG COMMUNITY=openeuler
+
 WORKDIR /
 
 RUN apt update \
@@ -15,20 +17,13 @@ ENV PATH=${JAVA_HOME}/bin:$PATH
 ENV MAVEN_HOME=/apache-maven-3.8.1
 ENV PATH=${MAVEN_HOME}/bin:$PATH
 
-COPY . /EaseSearch
-COPY ../es-client /EaseSearch
+COPY ./es-client /EaseSearch-data-import
+COPY ./${COMMUNITY} /EaseSearch-data-import
 
-RUN cd /EaseSearch \
+RUN cd /EaseSearch-data-import/${COMMUNITY} \
     && mvn clean install package -Dmaven.test.skip
 
-ENV SOURCE=/docs-file/source
-ENV TARGET=/docs-file/target
-
-RUN mkdir -p ${SOURCE} \
-    && cd ${SOURCE} \
-    && git clone https://gitee.com/mindspore/website-docs.git
-
-RUN cd /EaseSearch/target/classes \
+RUN cd /EaseSearch-data-import/${COMMUNITY}/target/classes \
     && chmod +x initDoc.sh \
     && ./initDoc.sh
 
@@ -44,7 +39,7 @@ ENV WORKSPACE=/home/easysearch
 ENV TARGET=${WORKSPACE}/file/target
 ENV BASEPATH=${WORKSPACE}
 
-COPY --chown=easysearch --from=Builder /EaseSearch/target ${WORKSPACE}/target
+COPY --chown=easysearch --from=Builder /EaseSearch-data-import/${COMMUNITY}/target ${WORKSPACE}/target
 COPY --chown=easysearch --from=Builder /jre ${WORKSPACE}/jre
 COPY --chown=easysearch --from=Builder /docs-file/target ${WORKSPACE}/file/target
 
@@ -52,10 +47,10 @@ ENV JAVA_HOME=${WORKSPACE}/jre
 ENV PATH=${JAVA_HOME}/bin:$PATH
 ENV MAPPING_PATH=${WORKSPACE}/target/classes/mapping.json
 
-ENV NO_ID_USER=anonymous
 ENV LANG="C.UTF-8"
-ENV INDEX_PREFIX=mindspore_articles
-ENV MINDSPORE_OFFICIAL=https://website-api.mindspore.cn
+
 USER easysearch
 
 CMD java -jar ${WORKSPACE}/target/import.jar
+
+

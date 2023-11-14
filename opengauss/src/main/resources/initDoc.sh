@@ -1,4 +1,20 @@
 #!/bin/bash
+SOURCE=/docs-file/source
+TARGET=/docs-file/target
+
+mkdir -p ${SOURCE}
+# shellcheck disable=SC2164
+cd ${SOURCE}
+git clone https://gitee.com/opengauss/blog.git -b v2
+git clone https://gitee.com/opengauss/website.git -b v2
+git clone https://gitee.com/opengauss/docs.git
+cp -r ./blog/app/zh/blogs/* ./website/app/zh/blogs/
+cp -r ./blog/app/en/blogs/* ./website/app/en/blogs/
+# shellcheck disable=SC2164
+cd website
+pnpm install
+pnpm build
+
 mkdir -p ${TARGET}/zh/
 mkdir -p ${TARGET}/en/
 

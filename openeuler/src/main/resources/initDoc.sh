@@ -1,4 +1,19 @@
 #!/bin/bash
+SOURCE=/docs-file/source
+TARGET=/docs-file/target
+
+export NODE_OPTIONS=--max-old-space-size=8192
+
+mkdir -p ${SOURCE}
+# shellcheck disable=SC2164
+cd ${SOURCE}
+git clone https://gitee.com/openeuler/openEuler-portal.git
+git clone https://gitee.com/openeuler/docs.git
+# shellcheck disable=SC2164
+cd openEuler-portal
+pnpm install
+pnpm build
+
 mkdir -p ${TARGET}/zh/
 mkdir -p ${TARGET}/en/
 mkdir -p ${TARGET}/ru/

@@ -13,7 +13,7 @@ public class App {
 
     private static final String MAPPING_PATH = System.getenv("MAPPING_PATH");
 
-    private static final String INDEX_PREFIX = System.getenv("INDEX_PREFIX");
+    private static final String INDEX_PREFIX = "openlookeng_articles";
 
     public static void main(String[] args) {
         try {

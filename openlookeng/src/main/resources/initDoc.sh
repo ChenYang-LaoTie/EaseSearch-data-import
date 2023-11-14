@@ -1,4 +1,14 @@
 #!/bin/bash
+SOURCE=/docs-file/source
+TARGET=/docs-file/target
+
+# shellcheck disable=SC2164
+cd ${SOURCE}
+
+git clone https://gitee.com/openlookeng/website-v2.git
+git clone https://gitee.com/openlookeng/website-docs.git
+
+mkdir -p ${SOURCE}
 mkdir -p ${TARGET}/zh/
 mkdir -p ${TARGET}/en/
 
