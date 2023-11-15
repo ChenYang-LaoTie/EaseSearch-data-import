@@ -34,16 +34,19 @@ RUN cp -r jdk-17.0.7 jre
 
 FROM openeuler/openeuler:22.03
 
-RUN groupadd -g 1001 easysearch \
-    && useradd -u 1001 -g easysearch -s /bin/bash -m easysearch
+#RUN groupadd -g 1001 easysearch \
+#    && useradd -u 1001 -g easysearch -s /bin/bash -m easysearch
 
 ENV WORKSPACE=/home/easysearch
 ENV TARGET=${WORKSPACE}/file/target
 ENV BASEPATH=${WORKSPACE}
 
-COPY --chown=easysearch --from=Builder /EaseSearch-data-import/import-task/target ${WORKSPACE}/target
-COPY --chown=easysearch --from=Builder /jre ${WORKSPACE}/jre
-COPY --chown=easysearch --from=Builder /docs-file/target ${WORKSPACE}/file/target
+#COPY --chown=easysearch --from=Builder /EaseSearch-data-import/import-task/target ${WORKSPACE}/target
+#COPY --chown=easysearch --from=Builder /jre ${WORKSPACE}/jre
+#COPY --chown=easysearch --from=Builder /docs-file/target ${WORKSPACE}/file/target
+COPY --from=Builder /EaseSearch-data-import/import-task/target ${WORKSPACE}/target
+COPY --from=Builder /jre ${WORKSPACE}/jre
+COPY --from=Builder /docs-file/target ${WORKSPACE}/file/target
 
 ENV JAVA_HOME=${WORKSPACE}/jre
 ENV PATH=${JAVA_HOME}/bin:$PATH
@@ -51,7 +54,7 @@ ENV MAPPING_PATH=${WORKSPACE}/target/classes/mapping.json
 
 ENV LANG="C.UTF-8"
 
-USER easysearch
+#USER easysearch
 
 CMD java -jar ${WORKSPACE}/target/import.jar
 
