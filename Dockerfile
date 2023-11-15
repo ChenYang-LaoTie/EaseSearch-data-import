@@ -1,5 +1,7 @@
 FROM gplane/pnpm as Builder
 
+ENV LANG="C.UTF-8"
+
 ARG COMMUNITY=openeuler
 
 WORKDIR /
@@ -32,7 +34,7 @@ RUN cd /EaseSearch-data-import/import-task/target/classes \
 RUN cp -r jdk-17.0.7 jre
 
 
-FROM openeuler/openeuler:22.03
+FROM openeuler/openeuler:23.03
 
 #RUN groupadd -g 1001 easysearch \
 #    && useradd -u 1001 -g easysearch -s /bin/bash -m easysearch

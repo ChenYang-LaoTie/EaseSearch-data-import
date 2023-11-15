@@ -35,7 +35,7 @@ public class App {
             return;
         }
 
-        System.out.println("begin to update document");
+        System.out.println("begin to update document,开始更新");
 
         Set<String> idSet = new HashSet<>();
 
