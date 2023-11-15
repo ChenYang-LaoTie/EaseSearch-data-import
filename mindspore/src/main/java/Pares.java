@@ -135,6 +135,8 @@ public class Pares {
                 title = t.text();
                 t.remove();
             } else {
+                System.out.println("Permalink to this headline - " + enTitle.size());
+                System.out.println("永久链接至标题 - " + zhTitle.size());
                 System.out.println("html can not find title");
                 return false;
             }
