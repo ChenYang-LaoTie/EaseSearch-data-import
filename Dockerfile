@@ -21,7 +21,7 @@ COPY ./es-client /EaseSearch-data-import/es-client
 COPY ./${COMMUNITY} /EaseSearch-data-import/${COMMUNITY}
 
 RUN cd /EaseSearch-data-import/${COMMUNITY} \
-    && mvn clean install package -pl -am -Dmaven.test.skip
+    && mvn clean install package assembly:single -Dmaven.test.skip
 
 RUN cd /EaseSearch-data-import/${COMMUNITY}/target/classes \
     && chmod +x initDoc.sh \
