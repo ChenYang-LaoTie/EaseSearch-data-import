@@ -18,12 +18,12 @@ ENV MAVEN_HOME=/apache-maven-3.8.1
 ENV PATH=${MAVEN_HOME}/bin:$PATH
 
 COPY ./es-client /EaseSearch-data-import/es-client
-COPY ./${COMMUNITY} /EaseSearch-data-import/${COMMUNITY}
+COPY ./${COMMUNITY} /EaseSearch-data-import/import-task
 
-RUN cd /EaseSearch-data-import/${COMMUNITY} \
+RUN cd /EaseSearch-data-import/import-task \
     && mvn clean install package -Dmaven.test.skip
 
-RUN cd /EaseSearch-data-import/${COMMUNITY}/target/classes \
+RUN cd /EaseSearch-data-import/import-task/target/classes \
     && chmod +x initDoc.sh \
     && ./initDoc.sh
 
@@ -39,7 +39,7 @@ ENV WORKSPACE=/home/easysearch
 ENV TARGET=${WORKSPACE}/file/target
 ENV BASEPATH=${WORKSPACE}
 
-COPY --chown=easysearch --from=Builder /EaseSearch-data-import/${COMMUNITY}/target ${WORKSPACE}/target
+COPY --chown=easysearch --from=Builder /EaseSearch-data-import/import-task/target ${WORKSPACE}/target
 COPY --chown=easysearch --from=Builder /jre ${WORKSPACE}/jre
 COPY --chown=easysearch --from=Builder /docs-file/target ${WORKSPACE}/file/target
 
