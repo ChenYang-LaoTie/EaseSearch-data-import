@@ -20,7 +20,9 @@ ENV PATH=${MAVEN_HOME}/bin:$PATH
 COPY ./es-client /EaseSearch-data-import/es-client
 COPY ./${COMMUNITY} /EaseSearch-data-import/import-task
 
-RUN cd /EaseSearch-data-import/import-task \
+RUN cd /EaseSearch-data-import/es-client \
+    && mvn install \
+    && cd /EaseSearch-data-import/import-task \
     && mvn clean install package -Dmaven.test.skip
 
 RUN cd /EaseSearch-data-import/import-task/target/classes \
