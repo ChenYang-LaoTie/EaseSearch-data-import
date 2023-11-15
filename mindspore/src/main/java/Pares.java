@@ -135,12 +135,14 @@ public class Pares {
                 title = t.text();
                 t.remove();
             } else {
+                System.out.println("html can not find title");
                 return false;
             }
             title = title.replaceAll("¶", "");
             title = title.replaceAll("\uF0C1", "");
             textContent = one.text();
         } else {
+            System.out.println("html can not find Elements with tag equal section");
             return false;
         }
 
