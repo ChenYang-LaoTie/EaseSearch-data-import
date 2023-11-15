@@ -34,8 +34,8 @@ RUN cp -r jdk-17.0.7 jre
 
 FROM openeuler/openeuler:22.03
 
-RUN groupadd -g 1001 easysearch \
-    && useradd -u 1001 -g easysearch -s /bin/bash -m easysearch
+#RUN groupadd -g 1001 easysearch \
+#    && useradd -u 1001 -g easysearch -s /bin/bash -m easysearch
 
 ENV WORKSPACE=/home/easysearch
 ENV TARGET=${WORKSPACE}/file/target
@@ -51,7 +51,7 @@ ENV MAPPING_PATH=${WORKSPACE}/target/classes/mapping.json
 
 ENV LANG="C.UTF-8"
 
-USER easysearch
+#USER easysearch
 
 CMD java -jar ${WORKSPACE}/target/import.jar
 
