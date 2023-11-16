@@ -54,9 +54,7 @@ ENV JAVA_HOME=${WORKSPACE}/jre
 ENV PATH=${JAVA_HOME}/bin:$PATH
 ENV MAPPING_PATH=${WORKSPACE}/target/classes/mapping.json
 
-
-
-#USER easysearch
+USER easysearch
 
 CMD java -jar ${WORKSPACE}/target/import.jar
 
