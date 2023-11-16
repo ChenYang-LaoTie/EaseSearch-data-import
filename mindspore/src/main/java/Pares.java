@@ -193,6 +193,7 @@ public class Pares {
         HttpURLConnection connection = null;
         String result;  // 返回结果字符串
         for (int i = 1; ; i++) {
+            System.out.println("get news page - " + i);
             TimeUnit.SECONDS.sleep(10);
             try {
                 JSONObject param = new JSONObject();
