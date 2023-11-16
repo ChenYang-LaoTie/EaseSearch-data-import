@@ -1,5 +1,4 @@
 FROM gplane/pnpm as Builder
-
 ENV LANG="C.UTF-8"
 
 ARG COMMUNITY=openeuler
@@ -35,26 +34,27 @@ RUN cp -r jdk-17.0.7 jre
 
 
 FROM openeuler/openeuler:23.03
+ENV LANG="C.UTF-8"
 
-#RUN groupadd -g 1001 easysearch \
-#    && useradd -u 1001 -g easysearch -s /bin/bash -m easysearch
+RUN yum update -y \
+    && yum install -y shadow
+
+RUN groupadd -g 1001 easysearch \
+    && useradd -u 1001 -g easysearch -s /bin/bash -m easysearch
 
 ENV WORKSPACE=/home/easysearch
 ENV TARGET=${WORKSPACE}/file/target
 ENV BASEPATH=${WORKSPACE}
 
-#COPY --chown=easysearch --from=Builder /EaseSearch-data-import/import-task/target ${WORKSPACE}/target
-#COPY --chown=easysearch --from=Builder /jre ${WORKSPACE}/jre
-#COPY --chown=easysearch --from=Builder /docs-file/target ${WORKSPACE}/file/target
-COPY --from=Builder /EaseSearch-data-import/import-task/target ${WORKSPACE}/target
-COPY --from=Builder /jre ${WORKSPACE}/jre
-COPY --from=Builder /docs-file/target ${WORKSPACE}/file/target
+COPY --chown=easysearch --from=Builder /EaseSearch-data-import/import-task/target ${WORKSPACE}/target
+COPY --chown=easysearch --from=Builder /jre ${WORKSPACE}/jre
+COPY --chown=easysearch --from=Builder /docs-file/target ${WORKSPACE}/file/target
 
 ENV JAVA_HOME=${WORKSPACE}/jre
 ENV PATH=${JAVA_HOME}/bin:$PATH
 ENV MAPPING_PATH=${WORKSPACE}/target/classes/mapping.json
 
-ENV LANG="C.UTF-8"
+
 
 #USER easysearch
 
