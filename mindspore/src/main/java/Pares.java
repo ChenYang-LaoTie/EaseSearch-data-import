@@ -237,7 +237,7 @@ public class Pares {
     }
 
     private static boolean setData(String data, List<Map<String, Object>> r, String lang) {
-        JSONObject post = JSON.parseObject(data);
+        JSONObject post = JSON.parseObject(data).getJSONObject("obj");
         JSONArray records = post.getJSONArray("records");
         if (records.size() <= 0) {
             return false;
@@ -256,14 +256,13 @@ public class Pares {
                 type = getInformationTypeEn(topic.getString("type"));
             }
 
-
             path = String.format(MINDSPORE_OFFICIAL + "/selectNewsInfo?id=%d", id);
 
             try {
                 connection = sendGET(path, "GET");
                 if (connection.getResponseCode() == 200) {
                     result = ReadInput(connection.getInputStream());
-                    JSONObject st = JSON.parseObject(result);
+                    JSONObject st = JSON.parseObject(result).getJSONObject("obj");
                     JSONObject detail = st.getJSONObject("detail");
                     String newsDetail = detail.getString("newsDetail");
                     //双重解析转义
