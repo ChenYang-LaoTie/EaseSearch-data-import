@@ -6,7 +6,7 @@ mkdir -p ${SOURCE}
 # shellcheck disable=SC2164
 cd ${SOURCE}
 git clone https://gitee.com/opengauss/blog.git -b v2
-git clone https://${GITEE_USER}:${GITEE_PASSWORD}gitee.com/opengauss/website.git -b v2
+git clone https://gitee.com/opengauss/website.git -b v2
 git clone https://gitee.com/opengauss/docs.git
 cp -r ./blog/app/zh/blogs/* ./website/app/zh/blogs/
 cp -r ./blog/app/en/blogs/* ./website/app/en/blogs/

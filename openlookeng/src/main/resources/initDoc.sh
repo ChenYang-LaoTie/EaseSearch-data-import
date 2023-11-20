@@ -5,7 +5,7 @@ TARGET=/docs-file/target
 mkdir -p ${SOURCE}
 # shellcheck disable=SC2164
 cd ${SOURCE}
-git clone https://${GITEE_USER}:${GITEE_PASSWORD}gitee.com/openlookeng/website-v2.git
+git clone https://gitee.com/openlookeng/website-v2.git
 git clone https://gitee.com/openlookeng/website-docs.git
 
 mkdir -p ${SOURCE}
